@@ -9,13 +9,13 @@ tiktoken
 libcst
 llama-index
 jsonlines
-swebench @ git+https://github.com/princeton-nlp/SWE-bench
-# Dependencies for reranker
-torch>=2.0.0
-transformers>=4.31.0
-sentence-transformers>=2.2.2
-accelerate>=0.21.0
-bitsandbytes>=0.41.1
-scipy>=1.11.2
-numpy>=1.24.3
-tqdm>=4.65.0
+# swebench @ git+https://github.com/princeton-nlp/SWE-bench
+# # Dependencies for reranker
+# torch>=2.0.0
+# transformers>=4.31.0
+# sentence-transformers>=2.2.2
+# accelerate>=0.21.0
+# bitsandbytes>=0.41.1
+# scipy>=1.11.2
+# numpy>=1.24.3
+# tqdm>=4.65.0

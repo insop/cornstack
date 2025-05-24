@@ -68,8 +68,24 @@ def parse_agentless_funcs(agentless_results):
         parsed_res[data['instance_id']] = file_res            
     return parsed_res
 
+# # ISS adding LGC
+# from datasets import load_dataset
+
+# def get_gold_predictions(dataset_name: str, split: str = 'test'):
+#     dataset = load_dataset(dataset_name, split=split)
+#     gold_predictions = {}
+#     for instance in dataset:
+#         instance_id = instance['instance_id']
+#         patch = instance['patch']
+#         gold_predictions[instance_id] = patch
+#     return gold_predictions
+
 def file_localization_results(agentless_path = None,
                               crag_bench_path_results = None, ds_name = "swe-bench-lite", split = 'test', k = 5):
+    # ISS
+    # import pdb;pdb.set_trace()
+    # gold_predictions = get_gold_predictions('princeton-nlp/SWE-bench_Lite')
+    # solutions =  convert_solutions_dict(get_gold_predictions(SWE_BENCH_MAP[ds_name], split))
     solutions =  convert_solutions_dict(get_gold_predictions(SWE_BENCH_MAP[ds_name], split))
 
     gold_files_changed = {key: 
@@ -179,7 +195,8 @@ def main(level = 'file', mode = 'agentless', model = 'CodeRankEmbed', ds_name = 
     if ds_name != 'swe-bench-lite' and split != 'test':
         raise NotImplementedError('only evaluation on the swe-bench-lite test split is supported now!!!')
     
-    agentless_path = None
+    if agentless_path == '':
+        agentless_path = None
     crag_bench_path_results = None
     beir_res = None
 
@@ -191,6 +208,8 @@ def main(level = 'file', mode = 'agentless', model = 'CodeRankEmbed', ds_name = 
             actually_file = False
             
     if mode == 'agentless':
+        if agentless_path is None:
+            raise ValueError("Expected --agentless_path to be set when using mode='agentless'")
         agentless_path = Path(agentless_path)
     
     elif mode == 'code-retriever':
