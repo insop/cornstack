@@ -7,12 +7,14 @@ import numpy as np
 import torch
 from utils import Retriever
 
- #ran with 512 seq length for fair comparison against baselines following CoIR paper although higher seq length may yield better pfm
-def main(tasks = 'all', output_dir = 'results', batch_size = 256, max_seq_length = 512):
-    # model_name = "nomic-ai/CodeRankEmbed"
-    model_name = "/workspace/Embeddings/contrastors/src/contrastors/ckpts/nomic-embed-text-v1-og-all_w0/step_4000/model_hf"
-    # model_name = "Snowflake/snowflake-arctic-embed-m-v1.5"
-    # model_name = "/workspace/Embeddings/contrastors/src/contrastors/ckpts/nomic-embed-text-v1-og-all/final_model_hf"
+"""
+-    # model_name = "nomic-ai/CodeRankEmbed"
+-    model_name = "/workspace/Embeddings/contrastors/src/contrastors/ckpts/nomic-embed-text-v1-og-all_w0/step_4000/model_hf"
+-    # model_name = "Snowflake/snowflake-arctic-embed-m-v1.5"
+-    # model_name = "/workspace/Embeddings/contrastors/src/contrastors/ckpts/nomic-embed-text-v1-og-all/final_model_hf"
+"""
+#ran with 512 seq length for fair comparison against baselines following CoIR paper although higher seq length may yield better pfm
+def main(model_name: str, tasks: str = 'all', output_dir: str = 'results', batch_size: int = 256, max_seq_length: int = 512):
     print(f"Using model: {model_name}")
     st = SentenceTransformer(model_name, trust_remote_code= True).to(torch.bfloat16)
     st.max_seq_length = max_seq_length
@@ -34,7 +36,7 @@ def main(tasks = 'all', output_dir = 'results', batch_size = 256, max_seq_length
         # Initialize evaluation
         evaluation = COIR(tasks= coir.get_tasks(tasks= [task]),batch_size=batch_size)
 
-        model_folder = model_name.split("/")[-2]
+        model_folder = "/".join(model_name.split("/")[-2:])
         # Run evaluation
         results = evaluation.run(contrast_encoder, output_folder=f"{output_dir}/coir/{model_folder}")
         print(results)
