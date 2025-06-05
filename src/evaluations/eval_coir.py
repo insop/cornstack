@@ -14,11 +14,11 @@ from utils import Retriever
 -    # model_name = "/workspace/Embeddings/contrastors/src/contrastors/ckpts/nomic-embed-text-v1-og-all/final_model_hf"
 """
 #ran with 512 seq length for fair comparison against baselines following CoIR paper although higher seq length may yield better pfm
-def main(model_name: str, tasks: str = 'all', output_dir: str = 'results', batch_size: int = 256, max_seq_length: int = 512):
+def main(model_name: str, tasks: str = 'all', output_dir: str = 'results', batch_size: int = 256, max_seq_length: int = 512, multiprocess: bool = True):
     print(f"Using model: {model_name}")
     st = SentenceTransformer(model_name, trust_remote_code= True).to(torch.bfloat16)
     st.max_seq_length = max_seq_length
-    contrast_encoder = Retriever(st, add_prefix= True)
+    contrast_encoder = Retriever(st, add_prefix= True, multiprocess=multiprocess)
 
     if tasks == 'all':
         tasks = ["codetrans-dl","stackoverflow-qa","apps","codefeedback-mt",
