@@ -9,6 +9,8 @@ tiktoken
 libcst
 llama-index
 jsonlines
+
+# NOTE: Uncomment the following if necessary
 # swebench @ git+https://github.com/princeton-nlp/SWE-bench
 # # Dependencies for reranker
 # torch>=2.0.0
